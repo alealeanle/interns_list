@@ -1,0 +1,120 @@
+.internsList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  @include adaptive-value('padding', 30, 20);
+  color: $orange100;
+  background-color: $green300;
+  border-radius: 20px;
+}
+
+.emptyList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  font-size: 48px;
+  color: $orange200;
+}
+
+.intern {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  @include adaptive-value('font-size', 18, 10);
+
+  &:not(:last-child) {
+    padding: 0px 0px 15px 0px;
+    border-bottom: 1px solid;
+  }
+}
+
+.internItem {
+  width: 100%;
+  max-width: 330px;
+  line-height: 122%;
+
+  @include respondSmall {
+    text-align: center;
+  }
+
+  &:not(:last-child) {
+    margin: 0px 10px 0px 0px;
+  }
+  & > *:not(:last-child) {
+    margin: 0px 10px 0px 0px;
+  }
+}
+
+.detailBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 15px;
+  font-size: 14px;
+  line-height: 142%;
+  color: $green400;
+  background-color: $green100;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+
+  @include respondLarge {
+    padding: 3px 9px;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: $orange200;
+    }
+  }
+
+  &:active {
+    background-color: $orange100;
+  }
+
+  &:not(:last-child) {
+    margin-right: 30px;
+
+    @include respondMedium {
+      margin-right: 20px;
+    }
+
+    @include respondSmall {
+      margin-right: 10px;
+    }
+  }
+}
+
+.startDate {
+  @include respondLarge {
+    display: none;
+  }
+}
+
+.internshipStage {
+  @include respondMLarge {
+    display: none;
+  }
+}
+
+.internshipType {
+  @include respondMedium {
+    display: none;
+  }
+}
+
+.directionLabel {
+  @include respondSmall {
+    display: none;
+  }
+}
+
+.fullNameLabel {
+  @include respondSmall {
+    display: none;
+  }
+}

@@ -1,0 +1,55 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  max-width: $maxWidthContainer + px;
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px 30px;
+
+  & > *:not(:last-child) {
+    @include adaptive-value('margin-bottom', 30, 10);
+  }
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 20vw;
+  padding: 15px 71px;
+  @include adaptive-value('font-size', 20, 10);
+  line-height: 142%;
+  white-space: nowrap;
+  color: $white;
+  background-color: $green400;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+
+  @include respondMedium {
+    width: 145px;
+    padding: 13px 30px;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: $green300;
+    }
+  }
+
+  &:active {
+    background-color: $green200;
+  }
+}
+
+.btnWord {
+  @include respondMedium {
+    display: none;
+  }
+}
+
+.lock {
+  overflow: hidden;
+  height: 100vh;
+}
