@@ -2,9 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isAddModalOpen: false,
-  valueBirthDate: false,
-  valueStartDate: false,
-  valueEndDate: false,
   isDetailModalOpen: false,
   selectedIntern: null,
   isEditModalOpen: false,
@@ -21,24 +18,6 @@ const modalSlice = createSlice({
       state.isAddModalOpen = false;
       state.valueBirthDate = false;
       state.valueStartDate = false;
-      state.valueEndDate = false;
-    },
-    setColorBirthDate: state => {
-      state.valueBirthDate = true;
-    },
-    unsetColorBirthDate: state => {
-      state.valueBirthDate = false;
-    },
-    setColorStartDate: state => {
-      state.valueStartDate = true;
-    },
-    unsetColorStartDate: state => {
-      state.valueStartDate = false;
-    },
-    setColorEndDate: state => {
-      state.valueEndDate = true;
-    },
-    unsetColorEndDate: state => {
       state.valueEndDate = false;
     },
     openDetailModal: (state, action) => {
@@ -66,12 +45,6 @@ const modalSlice = createSlice({
 export const {
   openAddModal,
   closeAddModal,
-  setColorBirthDate,
-  unsetColorBirthDate,
-  setColorStartDate,
-  unsetColorStartDate,
-  setColorEndDate,
-  unsetColorEndDate,
   openDetailModal,
   closeDetailModal,
   openEditModal,

@@ -17,7 +17,7 @@ const InternsList = () => {
 
   return (
     <div className={s.internsList}>
-      {interns.length === 0 ? (
+      {!interns.length ? (
         <p className={s.emptyList}>Список пуст</p>
       ) : (
         interns.map(intern => (

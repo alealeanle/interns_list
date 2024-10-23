@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { openAddModal } from '@models/modalSlice';
 import Header from '@commons/Header';
 import InternsList from './InternsList';
-import Modal from '@commons/Modal/Modal';
+import Modal from '@commons/Modal';
 import AddInternModal from './AddInternModal';
 import InternDetailModal from './InternDetailModal';
 import EditInternModal from './EditInternModal/';
