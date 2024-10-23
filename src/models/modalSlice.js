@@ -4,6 +4,7 @@ const initialState = {
   isAddModalOpen: false,
   isDetailModalOpen: false,
   selectedIntern: null,
+  isEditModalOpen: false,
 };
 
 const modalSlice = createSlice({
@@ -27,6 +28,17 @@ const modalSlice = createSlice({
       state.isDetailModalOpen = false;
       state.selectedIntern = null;
     },
+    openEditModal: (state, action) => {
+      state.isEditModalOpen = true;
+      state.selectedIntern = action.payload;
+    },
+    closeEditModal: state => {
+      state.isEditModalOpen = false;
+      state.valueBirthDate = false;
+      state.valueStartDate = false;
+      state.valueEndDate = false;
+      state.selectedIntern = null;
+    },
   },
 });
 
@@ -35,6 +47,8 @@ export const {
   closeAddModal,
   openDetailModal,
   closeDetailModal,
+  openEditModal,
+  closeEditModal,
 } = modalSlice.actions;
 
 export default modalSlice;

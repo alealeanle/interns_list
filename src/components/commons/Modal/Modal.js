@@ -1,10 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { closeAddModal, closeDetailModal } from '@models/modalSlice';
+import {
+  closeAddModal,
+  closeDetailModal,
+  closeEditModal,
+} from '@models/modalSlice';
 import s from './Modal.module.scss';
 
 const Modal = ({ children }) => {
   const dispatch = useDispatch();
-  const { isAddModalOpen, isDetailModalOpen } = useSelector(
+  const { isAddModalOpen, isDetailModalOpen, isEditModalOpen } = useSelector(
     state => state.modals,
   );
 
@@ -14,6 +18,9 @@ const Modal = ({ children }) => {
     }
     if (isDetailModalOpen) {
       dispatch(closeDetailModal());
+    }
+    if (isEditModalOpen) {
+      dispatch(closeEditModal());
     }
   };
 
