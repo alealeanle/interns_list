@@ -1,0 +1,284 @@
+.title {
+  margin-bottom: 20px;
+  @include adaptive-value('font-size', 24, 18);
+  font-weight: 600;
+  color: $green300;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-areas:
+    'fullName . birthDate education email'
+    'direction internshipType internshipStage startDate endDate'
+    'mentor . comment . .'
+    'submit . . . .';
+  gap: 20px;
+
+  @include respondLarge {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      'fullName . birthDate education'
+      'email direction internshipType internshipStage'
+      '. startDate endDate .'
+      'mentor . comment .'
+      'submit . . . ';
+  }
+
+  @include respondMLarge {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      'fullName . birthDate'
+      'education email direction'
+      'internshipType internshipStage startDate'
+      'mentor . endDate'
+      ' . . comment'
+      '. . .'
+      '. submit .';
+  }
+
+  @include respondMedium {
+    grid-template-columns: auto;
+    grid-template-rows: repeat(13, auto);
+    grid-template-areas:
+      'fullName'
+      'birthDate'
+      'education'
+      'email'
+      'direction'
+      'internshipType'
+      'internshipStage'
+      'startDate'
+      'endDate'
+      'mentor'
+      'comment'
+      '.'
+      'submit';
+  }
+}
+
+.wrap {
+  position: relative;
+  &:not(:nth-last-child(2)) {
+    margin: 0px 0px 20px 0px;
+    @include adaptive-value('margin-bottom', 20, 10);
+  }
+}
+
+.fullName {
+  grid-area: fullName;
+  grid-column: span 2;
+
+  @include respondMedium {
+    grid-column: auto;
+  }
+}
+
+.birthDate {
+  grid-area: birthDate;
+}
+
+.education {
+  grid-area: education;
+}
+
+.email {
+  grid-area: email;
+}
+
+.direction {
+  grid-area: direction;
+
+  & > select {
+    cursor: pointer;
+    appearance: none;
+  }
+}
+
+.internshipType {
+  grid-area: internshipType;
+
+  & > select {
+    cursor: pointer;
+    appearance: none;
+  }
+}
+
+.internshipStage {
+  grid-area: internshipStage;
+
+  & > select {
+    cursor: pointer;
+    appearance: none;
+  }
+}
+
+.startDate {
+  grid-area: startDate;
+}
+
+.endDate {
+  grid-area: endDate;
+}
+
+.mentor {
+  grid-area: mentor;
+  grid-column: span 2;
+
+  @include respondMedium {
+    grid-column: auto;
+  }
+}
+
+.comment {
+  @include adaptive-value('height', 200, 80);
+  grid-area: comment;
+  grid-column: span 3;
+  grid-row: span 2;
+
+  @include respondLarge {
+    grid-column: span 2;
+  }
+
+  @include respondMLarge {
+    grid-column: span 3;
+  }
+
+  @include respondMedium {
+    grid-column: auto;
+  }
+}
+
+.label {
+  position: relative;
+  display: flex;
+  margin-bottom: 8px;
+  font-size: 20px;
+  white-space: nowrap;
+  @include adaptive-value('font-size', 20, 8);
+  color: $black;
+}
+
+.error {
+  position: absolute;
+  bottom: -35px;
+  @include adaptive-value('bottom', -35, -15);
+  font-size: 16px;
+  @include adaptive-value('font-size', 16, 8);
+  color: red;
+}
+
+.input {
+  width: 100%;
+  @include adaptive-value('height', 68, 12);
+  @include adaptive-value('padding', 20, 4);
+  font-family: Roboto;
+  @include adaptive-value('font-size', 20, 10);
+  line-height: 142%;
+  color: $black;
+  background-color: $orange100;
+  outline: 1px solid $beige200;
+  border-radius: 10px;
+  transition: all 0.3s ease 0s;
+
+  @include respondXLarge {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: $white;
+      outline: 1px solid $gray300;
+    }
+  }
+
+  &:focus {
+    background-color: $beige200;
+    outline: 1px solid $gray300;
+  }
+
+  &::placeholder {
+    color: $gray300;
+  }
+
+  &[name='dest'] {
+    cursor: pointer;
+    color: $black;
+    appearance: none;
+  }
+
+  &[type='date'] {
+    position: relative;
+    min-width: 100%;
+    letter-spacing: -0.7px;
+    text-transform: uppercase;
+    color: $gray300;
+    cursor: text;
+
+    &::-webkit-calendar-picker-indicator {
+      position: absolute;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: none;
+      cursor: pointer;
+    }
+    &.filledDate {
+      color: $black;
+    }
+  }
+
+  &[name='mentor'] {
+    margin-bottom: -20px;
+  }
+
+  &[name='comment'] {
+    min-width: 100%;
+    height: 85%;
+    transition:
+      background-color 0.3s ease 0s,
+      outline 0.3s ease 0s;
+    resize: none;
+  }
+}
+
+.submit {
+  grid-area: submit;
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  @include adaptive-value('padding-top', 15, 6);
+  @include adaptive-value('padding-right', 70, 30);
+  @include adaptive-value('padding-bottom', 15, 6);
+  @include adaptive-value('padding-left', 70, 30);
+  font-size: 20px;
+  @include adaptive-value('font-size', 20, 16);
+  line-height: 142%;
+  color: $white;
+  background-color: $green400;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+
+  @include respondMLarge {
+    grid-column: 2 / auto;
+    margin-bottom: 30px;
+  }
+
+  @include respondMedium {
+    grid-column: auto;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: $green300;
+    }
+  }
+
+  &:active {
+    background-color: $green200;
+  }
+}

@@ -2,20 +2,27 @@
   "name": "interns_list",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://alealeanle.github.io/interns_list",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.8",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "clsx": "^2.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.1.2",
     "react-scripts": "5.0.1",
+    "uuid": "^10.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +41,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "craco-sass-resources-loader": "^1.1.0",
+    "gh-pages": "^6.1.1",
+    "prettier": "^3.3.3",
+    "sass": "^1.79.4"
   }
 }
