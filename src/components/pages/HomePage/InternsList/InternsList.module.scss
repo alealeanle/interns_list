@@ -10,12 +10,62 @@
   border-radius: 20px;
 }
 
+.filterInput {
+  width: 40%;
+  @include adaptive-value('height', 40, 12);
+  @include adaptive-value('padding', 20, 4);
+  font-family: Roboto;
+  @include adaptive-value('font-size', 24, 10);
+  text-align: center;
+  line-height: 142%;
+  color: $black;
+  background-color: $orange100;
+  outline: 1px solid $beige200;
+  border-radius: 10px;
+  transition: all 0.3s ease 0s;
+
+  @include respondXLarge {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  @include respondMedium {
+    width: 55%;
+  }
+
+  @include respondSmall {
+    width: 100%;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: $white;
+      outline: 1px solid $gray300;
+    }
+  }
+
+  &:focus {
+    background-color: $beige200;
+    outline: 1px solid $gray300;
+  }
+
+  &::placeholder {
+    color: $gray300;
+  }
+}
+
+.highlight {
+  background-color: $orange200;
+  border-radius: 2px;
+}
+
 .emptyList {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50vh;
-  font-size: 48px;
+  @include adaptive-value('font-size', 48, 24);
+  text-align: center;
   color: $orange200;
 }
 
@@ -49,7 +99,12 @@
   }
 }
 
-.detailBtn {
+.buttons {
+  display: flex;
+  @include adaptive-value('gap', 20, 5);
+}
+
+.btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,18 +129,6 @@
 
   &:active {
     background-color: $orange100;
-  }
-
-  &:not(:last-child) {
-    margin-right: 30px;
-
-    @include respondMedium {
-      margin-right: 20px;
-    }
-
-    @include respondSmall {
-      margin-right: 10px;
-    }
   }
 }
 
