@@ -1,24 +1,13 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteIntern } from '@models/internsSlice';
-import {
-  closeEditModal,
-  setColorBirthDate,
-  unsetColorBirthDate,
-  setColorStartDate,
-  unsetColorStartDate,
-  setColorEndDate,
-  unsetColorEndDate,
-} from '@models/modalSlice';
+import { saveEditIntern, deleteIntern } from '@models/internsSlice';
+import { closeEditModal } from '@models/modalSlice';
 import s from './EditInternModal.module.scss';
 
 const EditInternModal = () => {
   const dispatch = useDispatch();
   const { selectedIntern } = useSelector(state => state.modals);
-  const { valueBirthDate, valueStartDate, valueEndDate } = useSelector(
-    state => state.modals,
-  );
   const [formData, setFormData] = useState({
     id: selectedIntern.id,
     fullName: selectedIntern.fullName,
@@ -38,47 +27,52 @@ const EditInternModal = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.fullName) newErrors.fullName = 'Необходимо указать стажера';
-    if (!formData.birthDate)
+    if (!formData.fullName) {
+      newErrors.fullName = 'Необходимо указать стажера';
+    }
+    if (!formData.birthDate) {
       newErrors.birthDate = 'Введите дату в формате ДД-ММ-ГГГГ';
-    if (!formData.education)
+    }
+    if (!formData.education) {
       newErrors.education = 'Необходимо указать образование';
-    if (!/\S+@\S+\.\S+/.test(formData.email))
+    }
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Необходимо указать корректный email';
-    if (!formData.startDate)
+    }
+    if (!formData.startDate) {
       newErrors.startDate = 'Введите дату в формате ДД-ММ-ГГГГ';
-    if (!formData.mentor) newErrors.mentor = 'Необходимо указать ментора';
-    if (!formData.endDate)
+    }
+    if (!formData.mentor) {
+      newErrors.mentor = 'Необходимо указать ментора';
+    }
+    if (!formData.endDate) {
       newErrors.endDate = 'Введите дату в формате ДД-ММ-ГГГГ';
+    }
     return newErrors;
   };
 
   const handleSubmit = e => {
     e.preventDefault();
     const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
+    if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
     } else {
-      dispatch(deleteIntern(selectedIntern.id));
+      dispatch(saveEditIntern(formData));
       dispatch(closeEditModal());
     }
   };
 
   const handleChange = e => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
-    if (type === 'date' && name === 'birthDate') {
-      value ? dispatch(setColorBirthDate()) : dispatch(unsetColorBirthDate());
-    }
-    if (type === 'date' && name === 'startDate') {
-      value ? dispatch(setColorStartDate()) : dispatch(unsetColorStartDate());
-    }
-    if (type === 'date' && name === 'endDate') {
-      value ? dispatch(setColorEndDate()) : dispatch(unsetColorEndDate());
-    }
+  };
+
+  const handleDeleteIntern = () => {
+    dispatch(deleteIntern(selectedIntern.id));
+    dispatch(closeEditModal());
   };
 
   return (
@@ -100,7 +94,9 @@ const EditInternModal = () => {
           <input
             type="date"
             name="birthDate"
-            className={clsx(s.input, { [s.value]: valueBirthDate })}
+            className={clsx(s.input, {
+              [s.filledDate]: Boolean(formData.birthDate),
+            })}
             value={formData.birthDate}
             onChange={handleChange}
           />
@@ -189,7 +185,9 @@ const EditInternModal = () => {
           <input
             type="date"
             name="startDate"
-            className={clsx(s.input, { [s.value]: valueStartDate })}
+            className={clsx(s.input, {
+              [s.filledDate]: Boolean(formData.startDate),
+            })}
             value={formData.startDate}
             onChange={handleChange}
           />
@@ -200,7 +198,9 @@ const EditInternModal = () => {
           <input
             type="date"
             name="endDate"
-            className={clsx(s.input, { [s.value]: valueEndDate })}
+            className={clsx(s.input, {
+              [s.filledDate]: Boolean(formData.endDate),
+            })}
             value={formData.endDate}
             onChange={handleChange}
           />
@@ -227,6 +227,9 @@ const EditInternModal = () => {
         </div>
         <button className={s.submit} type="submit">
           Сохранить
+        </button>
+        <button className={s.delete} type="button" onClick={handleDeleteIntern}>
+          Удалить
         </button>
       </div>
     </form>

@@ -46,11 +46,11 @@ const InternsList = () => {
             </p>
             <div className={s.buttons}>
               <button
-                className={clsx(s.detailBtn, 'icon-eye')}
+                className={clsx(s.btn, 'icon-eye')}
                 onClick={() => onDetailClick(intern)}
               ></button>
               <button
-                className={clsx(s.detailBtn, 'icon-pencil')}
+                className={clsx(s.btn, 'icon-pencil')}
                 onClick={() => onEditClick(intern)}
               ></button>
             </div>

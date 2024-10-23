@@ -12,8 +12,10 @@ const internsSlice = createSlice({
       state.interns.push(action.payload);
       localStorage.setItem('interns', JSON.stringify(state.interns));
     },
-    saveIntern: (state, action) => {
-      state.interns.push(action.payload);
+    saveEditIntern: (state, action) => {
+      state.interns = state.interns.map(intern =>
+        intern.id === action.payload.id ? action.payload : intern,
+      );
       localStorage.setItem('interns', JSON.stringify(state.interns));
     },
     deleteIntern: (state, action) => {
@@ -25,6 +27,6 @@ const internsSlice = createSlice({
   },
 });
 
-export const { addIntern, deleteIntern } = internsSlice.actions;
+export const { addIntern, saveEditIntern, deleteIntern } = internsSlice.actions;
 
 export default internsSlice;
