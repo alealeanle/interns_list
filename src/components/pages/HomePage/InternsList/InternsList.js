@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { openDetailModal } from '@models/modalSlice';
+import { openDetailModal, openEditModal } from '@models/modalSlice';
 import s from './InternsList.module.scss';
 
 const InternsList = () => {
@@ -9,6 +9,10 @@ const InternsList = () => {
 
   const onDetailClick = intern => {
     dispatch(openDetailModal(intern));
+  };
+
+  const onEditClick = intern => {
+    dispatch(openEditModal(intern));
   };
 
   return (
@@ -40,10 +44,16 @@ const InternsList = () => {
               <strong className={s.label}>Дата начала:</strong>
               <span>{intern.startDate}</span>
             </p>
-            <button
-              className={clsx(s.detailBtn, 'icon-eye')}
-              onClick={() => onDetailClick(intern)}
-            ></button>
+            <div className={s.buttons}>
+              <button
+                className={clsx(s.detailBtn, 'icon-eye')}
+                onClick={() => onDetailClick(intern)}
+              ></button>
+              <button
+                className={clsx(s.detailBtn, 'icon-pencil')}
+                onClick={() => onEditClick(intern)}
+              ></button>
+            </div>
           </div>
         ))
       )}

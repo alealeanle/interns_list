@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addIntern } from '@models/internsSlice';
+import { deleteIntern } from '@models/internsSlice';
 import {
-  closeAddModal,
+  closeEditModal,
   setColorBirthDate,
   unsetColorBirthDate,
   setColorStartDate,
@@ -12,26 +11,27 @@ import {
   setColorEndDate,
   unsetColorEndDate,
 } from '@models/modalSlice';
-import s from './AddInternModal.module.scss';
+import s from './EditInternModal.module.scss';
 
-const AddInternModal = () => {
+const EditInternModal = () => {
   const dispatch = useDispatch();
+  const { selectedIntern } = useSelector(state => state.modals);
   const { valueBirthDate, valueStartDate, valueEndDate } = useSelector(
     state => state.modals,
   );
   const [formData, setFormData] = useState({
-    id: uuidv4(),
-    fullName: '',
-    birthDate: '',
-    education: '',
-    email: '',
-    direction: 'Frontend',
-    startDate: '',
-    mentor: '',
-    internshipType: 'Базовая',
-    internshipStage: 'Изучение',
-    endDate: '',
-    comment: '',
+    id: selectedIntern.id,
+    fullName: selectedIntern.fullName,
+    birthDate: selectedIntern.birthDate,
+    education: selectedIntern.education,
+    email: selectedIntern.email,
+    direction: selectedIntern.direction,
+    startDate: selectedIntern.startDate,
+    mentor: selectedIntern.mentor,
+    internshipType: selectedIntern.internshipType,
+    internshipStage: selectedIntern.internshipStage,
+    endDate: selectedIntern.endDate,
+    comment: selectedIntern.comment,
   });
 
   const [errors, setErrors] = useState({});
@@ -59,8 +59,8 @@ const AddInternModal = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      dispatch(addIntern(formData));
-      dispatch(closeAddModal());
+      dispatch(deleteIntern(selectedIntern.id));
+      dispatch(closeEditModal());
     }
   };
 
@@ -226,11 +226,11 @@ const AddInternModal = () => {
           ></textarea>
         </div>
         <button className={s.submit} type="submit">
-          Добавить
+          Сохранить
         </button>
       </div>
     </form>
   );
 };
 
-export default AddInternModal;
+export default EditInternModal;
