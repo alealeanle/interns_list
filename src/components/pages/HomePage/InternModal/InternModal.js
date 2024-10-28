@@ -1,26 +1,28 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveEditIntern, deleteIntern } from '@models/internsSlice';
-import { closeEditModal } from '@models/modalSlice';
-import s from './EditInternModal.module.scss';
+import { v4 as uuidv4 } from 'uuid';
+import { addIntern, saveEditIntern, deleteIntern } from '@models/internsSlice';
+import { closeAddModal, closeEditModal } from '@models/modalSlice';
+import s from './InternModal.module.scss';
 
-const EditInternModal = () => {
+const InternModal = ({ isEditMode = false }) => {
   const dispatch = useDispatch();
   const { selectedIntern } = useSelector(state => state.modals);
+
   const [formData, setFormData] = useState({
-    id: selectedIntern.id,
-    fullName: selectedIntern.fullName,
-    birthDate: selectedIntern.birthDate,
-    education: selectedIntern.education,
-    email: selectedIntern.email,
-    direction: selectedIntern.direction,
-    startDate: selectedIntern.startDate,
-    mentor: selectedIntern.mentor,
-    internshipType: selectedIntern.internshipType,
-    internshipStage: selectedIntern.internshipStage,
-    endDate: selectedIntern.endDate,
-    comment: selectedIntern.comment,
+    id: isEditMode ? selectedIntern.id : uuidv4(),
+    fullName: isEditMode ? selectedIntern.fullName : '',
+    birthDate: isEditMode ? selectedIntern.birthDate : '',
+    education: isEditMode ? selectedIntern.education : '',
+    email: isEditMode ? selectedIntern.email : '',
+    direction: isEditMode ? selectedIntern.direction : 'Frontend',
+    startDate: isEditMode ? selectedIntern.startDate : '',
+    mentor: isEditMode ? selectedIntern.mentor : '',
+    internshipType: isEditMode ? selectedIntern.internshipType : 'Базовая',
+    internshipStage: isEditMode ? selectedIntern.internshipStage : 'Изучение',
+    endDate: isEditMode ? selectedIntern.endDate : '',
+    comment: isEditMode ? selectedIntern.comment : '',
   });
 
   const [errors, setErrors] = useState({});
@@ -57,8 +59,13 @@ const EditInternModal = () => {
     if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
     } else {
-      dispatch(saveEditIntern(formData));
-      dispatch(closeEditModal());
+      if (isEditMode) {
+        dispatch(saveEditIntern(formData));
+        dispatch(closeEditModal());
+      } else {
+        dispatch(addIntern(formData));
+        dispatch(closeAddModal());
+      }
     }
   };
 
@@ -70,15 +77,17 @@ const EditInternModal = () => {
     });
   };
 
-  const handleDeleteIntern = () => {
-    dispatch(deleteIntern(selectedIntern.id));
-    dispatch(closeEditModal());
-  };
-
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className={s.title}>Новый стажер</h2>
-      <div className={s.gridContainer}>
+      <h2 className={s.title}>
+        {isEditMode ? 'Редактировать стажера' : 'Новый стажер'}
+      </h2>
+      <div
+        className={clsx({
+          [s.gridContainer]: !isEditMode,
+          [s.gridContainerEditMode]: isEditMode,
+        })}
+      >
         <div className={clsx(s.wrap, s.fullName)}>
           <label className={s.label}>ФИО</label>
           <input
@@ -220,20 +229,33 @@ const EditInternModal = () => {
           <label className={s.label}>Комментарий</label>
           <textarea
             name="comment"
-            className={s.input}
+            className={clsx(s.input, { [s.commentEditMode]: isEditMode })}
             value={formData.comment}
             onChange={handleChange}
           ></textarea>
         </div>
-        <button className={s.submit} type="submit">
-          Сохранить
+
+        <button
+          className={clsx(s.btn, { [s.btnEditMode]: isEditMode })}
+          type="submit"
+        >
+          {isEditMode ? 'Сохранить' : 'Добавить'}
         </button>
-        <button className={s.delete} type="button" onClick={handleDeleteIntern}>
-          Удалить
-        </button>
+        {isEditMode && (
+          <button
+            className={clsx(s.btn, s.btnEditMode, s.delete)}
+            type="button"
+            onClick={() => {
+              dispatch(deleteIntern(selectedIntern.id));
+              dispatch(closeEditModal());
+            }}
+          >
+            Удалить
+          </button>
+        )}
       </div>
     </form>
   );
 };
 
-export default EditInternModal;
+export default InternModal;

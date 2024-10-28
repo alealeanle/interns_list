@@ -57,6 +57,59 @@
   }
 }
 
+.gridContainerEditMode {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-areas:
+    'fullName . birthDate education email'
+    'direction internshipType internshipStage startDate endDate'
+    'mentor . comment . .'
+    'submit delete . . .';
+  gap: 20px;
+
+  @include respondLarge {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      'fullName . birthDate education'
+      'email direction internshipType internshipStage'
+      '. startDate endDate .'
+      'mentor . comment .'
+      'submit delete . . ';
+  }
+
+  @include respondMLarge {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      'fullName . birthDate'
+      'education email direction'
+      'internshipType internshipStage startDate'
+      'mentor . endDate'
+      ' . . comment'
+      '. . .'
+      '. submit delete';
+  }
+
+  @include respondMedium {
+    grid-template-columns: auto;
+    grid-template-rows: repeat(13, auto);
+    grid-template-areas:
+      'fullName'
+      'birthDate'
+      'education'
+      'email'
+      'direction'
+      'internshipType'
+      'internshipStage'
+      'startDate'
+      'endDate'
+      'mentor'
+      'comment'
+      '.'
+      'submit'
+      'delete';
+  }
+}
+
 .wrap {
   position: relative;
   &:not(:nth-last-child(2)) {
@@ -243,7 +296,11 @@
   }
 }
 
-.submit {
+.commentEditMode.input[name='comment'] {
+  height: 95%;
+}
+
+.btn {
   grid-area: submit;
   grid-column: span 2;
   display: flex;
@@ -280,5 +337,28 @@
 
   &:active {
     background-color: $green200;
+  }
+}
+
+.btnEditMode {
+  grid-column: auto;
+
+  @include respondMedium {
+    margin-bottom: auto;
+  }
+}
+
+.delete {
+  grid-area: delete;
+  background-color: $gray300;
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: $orange200;
+    }
+  }
+
+  &:active {
+    background-color: $gray200;
   }
 }

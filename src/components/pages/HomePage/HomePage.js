@@ -4,9 +4,8 @@ import { openAddModal } from '@models/modalSlice';
 import Header from '@commons/Header';
 import InternsList from './InternsList';
 import Modal from '@commons/Modal';
-import AddInternModal from './AddInternModal';
+import InternModal from './InternModal';
 import InternDetailModal from './InternDetailModal';
-import EditInternModal from './EditInternModal/';
 import s from './HomePage.module.scss';
 
 const HomePage = () => {
@@ -31,7 +30,7 @@ const HomePage = () => {
       <InternsList />
       {isAddModalOpen && (
         <Modal>
-          <AddInternModal />
+          <InternModal />
         </Modal>
       )}
       {isDetailModalOpen && (
@@ -41,7 +40,7 @@ const HomePage = () => {
       )}
       {isEditModalOpen && (
         <Modal>
-          <EditInternModal />
+          <InternModal isEditMode />
         </Modal>
       )}
     </div>
