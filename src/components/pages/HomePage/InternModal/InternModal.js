@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import clsx from 'clsx';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import clsx from 'clsx';
 import { addIntern, saveEditIntern, deleteIntern } from '@models/internsSlice';
-import { closeAddModal, closeEditModal } from '@models/modalSlice';
 import s from './InternModal.module.scss';
 
-const InternModal = ({ isEditMode = false }) => {
+const InternModal = ({ isEditMode = false, selectedIntern, closeModal }) => {
   const dispatch = useDispatch();
-  const { selectedIntern } = useSelector(state => state.modals);
 
   const [formData, setFormData] = useState({
     id: isEditMode ? selectedIntern.id : uuidv4(),
@@ -26,6 +24,14 @@ const InternModal = ({ isEditMode = false }) => {
   });
 
   const [errors, setErrors] = useState({});
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -61,20 +67,16 @@ const InternModal = ({ isEditMode = false }) => {
     } else {
       if (isEditMode) {
         dispatch(saveEditIntern(formData));
-        dispatch(closeEditModal());
       } else {
         dispatch(addIntern(formData));
-        dispatch(closeAddModal());
       }
+      closeModal(false);
     }
   };
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleDeleteIntern = id => {
+    dispatch(deleteIntern(id));
+    closeModal(false);
   };
 
   return (
@@ -246,8 +248,7 @@ const InternModal = ({ isEditMode = false }) => {
             className={clsx(s.btn, s.btnEditMode, s.delete)}
             type="button"
             onClick={() => {
-              dispatch(deleteIntern(selectedIntern.id));
-              dispatch(closeEditModal());
+              handleDeleteIntern(selectedIntern.id);
             }}
           >
             Удалить

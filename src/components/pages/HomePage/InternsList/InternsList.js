@@ -1,18 +1,28 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { openDetailModal, openEditModal } from '@models/modalSlice';
+import Modal from '@commons/Modal/Modal';
+import InternDetailModal from '@pages/HomePage/InternDetailModal';
+import EditInternModal from '@pages/HomePage/InternModal';
 import s from './InternsList.module.scss';
 
-const InternsList = () => {
-  const dispatch = useDispatch();
+const InternsList = ({
+  isDetailModalOpen,
+  isEditModalOpen,
+  setIsDetailModalOpen,
+  setIsEditModalOpen,
+}) => {
   const interns = useSelector(state => state.interns.interns);
+  const [selectedIntern, setSelectedIntern] = useState(null);
 
   const onDetailClick = intern => {
-    dispatch(openDetailModal(intern));
+    setSelectedIntern(intern);
+    setIsDetailModalOpen(true);
   };
 
   const onEditClick = intern => {
-    dispatch(openEditModal(intern));
+    setSelectedIntern(intern);
+    setIsEditModalOpen(true);
   };
 
   return (
@@ -54,6 +64,17 @@ const InternsList = () => {
                 onClick={() => onEditClick(intern)}
               ></button>
             </div>
+
+            <Modal isOpen={isDetailModalOpen} closeModal={setIsDetailModalOpen}>
+              <InternDetailModal selectedIntern={selectedIntern} />
+            </Modal>
+            <Modal isOpen={isEditModalOpen} closeModal={setIsEditModalOpen}>
+              <EditInternModal
+                isEditMode
+                selectedIntern={selectedIntern}
+                closeModal={setIsEditModalOpen}
+              />
+            </Modal>
           </div>
         ))
       )}

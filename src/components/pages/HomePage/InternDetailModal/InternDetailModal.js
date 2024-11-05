@@ -1,9 +1,7 @@
 import clsx from 'clsx';
-import { useSelector } from 'react-redux';
 import s from './InternDetailModal.module.scss';
 
-const InternDetailModal = () => {
-  const { selectedIntern } = useSelector(state => state.modals);
+const InternDetailModal = ({ selectedIntern }) => {
   return (
     <div className={s.intern}>
       <div className={s.gridContainer}>
