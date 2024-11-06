@@ -1,5 +1,6 @@
 import { memo, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import PropTypes from 'prop-types';
 import s from './ModalFade.module.scss';
 
 const ModalFade = ({ children, isOpen }) => {
@@ -23,6 +24,11 @@ const ModalFade = ({ children, isOpen }) => {
   );
 
   return content;
+};
+
+ModalFade.propTypes = {
+  children: PropTypes.node.isRequired,
+  isOpen: PropTypes.bool.isRequired,
 };
 
 export default memo(ModalFade);

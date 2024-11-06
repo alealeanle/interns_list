@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import Modal from '@commons/Modal/Modal';
 import InternDetailModal from '@pages/HomePage/InternDetailModal';
 import EditInternModal from '@pages/HomePage/InternModal';
@@ -82,4 +83,11 @@ const InternsList = ({
   );
 };
 
-export default InternsList;
+InternsList.propTypes = {
+  isDetailModalOpen: PropTypes.bool.isRequired,
+  isEditModalOpen: PropTypes.bool.isRequired,
+  setIsDetailModalOpen: PropTypes.func.isRequired,
+  setIsEditModalOpen: PropTypes.func.isRequired,
+};
+
+export default memo(InternsList);

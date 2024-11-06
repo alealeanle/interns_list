@@ -1,3 +1,5 @@
+import { memo } from 'react';
+import PropTypes from 'prop-types';
 import ModalFade from '@commons/ModalFade';
 import s from './Modal.module.scss';
 
@@ -21,4 +23,10 @@ const Modal = ({ children, isOpen, closeModal }) => {
   );
 };
 
-export default Modal;
+Modal.propTypes = {
+  children: PropTypes.node.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+};
+
+export default memo(Modal);
