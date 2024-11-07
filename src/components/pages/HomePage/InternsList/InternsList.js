@@ -1,14 +1,29 @@
+import { memo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { openDetailModal } from '@models/modalSlice';
+import PropTypes from 'prop-types';
+import Modal from '@commons/Modal/Modal';
+import InternDetailModal from '@pages/HomePage/InternDetailModal';
+import EditInternModal from '@pages/HomePage/InternModal';
 import s from './InternsList.module.scss';
 
-const InternsList = () => {
-  const dispatch = useDispatch();
+const InternsList = ({
+  isDetailModalOpen,
+  isEditModalOpen,
+  setIsDetailModalOpen,
+  setIsEditModalOpen,
+}) => {
   const interns = useSelector(state => state.interns.interns);
+  const [selectedIntern, setSelectedIntern] = useState(null);
 
   const onDetailClick = intern => {
-    dispatch(openDetailModal(intern));
+    setSelectedIntern(intern);
+    setIsDetailModalOpen(true);
+  };
+
+  const onEditClick = intern => {
+    setSelectedIntern(intern);
+    setIsEditModalOpen(true);
   };
 
   return (
@@ -40,10 +55,30 @@ const InternsList = () => {
               <strong className={s.label}>Дата начала:</strong>
               <span>{intern.startDate}</span>
             </p>
-            <button
-              className={clsx(s.detailBtn, 'icon-eye')}
-              onClick={() => onDetailClick(intern)}
-            ></button>
+            <div className={s.buttons}>
+              <button
+                className={clsx(s.btn, 'icon-eye')}
+                onClick={() => onDetailClick(intern)}
+              ></button>
+              <button
+                className={clsx(s.btn, 'icon-pencil')}
+                onClick={() => onEditClick(intern)}
+              ></button>
+            </div>
+
+            <Modal
+              isOpen={isDetailModalOpen}
+              setIsModalOpen={setIsDetailModalOpen}
+            >
+              <InternDetailModal selectedIntern={selectedIntern} />
+            </Modal>
+            <Modal isOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen}>
+              <EditInternModal
+                isEditMode
+                selectedIntern={selectedIntern}
+                setIsModalOpen={setIsEditModalOpen}
+              />
+            </Modal>
           </div>
         ))
       )}
@@ -51,4 +86,11 @@ const InternsList = () => {
   );
 };
 
-export default InternsList;
+InternsList.propTypes = {
+  isDetailModalOpen: PropTypes.bool.isRequired,
+  isEditModalOpen: PropTypes.bool.isRequired,
+  setIsDetailModalOpen: PropTypes.func.isRequired,
+  setIsEditModalOpen: PropTypes.func.isRequired,
+};
+
+export default memo(InternsList);

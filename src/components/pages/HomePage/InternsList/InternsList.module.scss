@@ -49,7 +49,12 @@
   }
 }
 
-.detailBtn {
+.buttons {
+  display: flex;
+  @include adaptive-value('gap', 20, 5);
+}
+
+.btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,18 +79,6 @@
 
   &:active {
     background-color: $orange100;
-  }
-
-  &:not(:last-child) {
-    margin-right: 30px;
-
-    @include respondMedium {
-      margin-right: 20px;
-    }
-
-    @include respondSmall {
-      margin-right: 10px;
-    }
   }
 }
 

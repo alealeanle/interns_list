@@ -1,43 +1,42 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { openAddModal } from '@models/modalSlice';
+import { useState } from 'react';
+import clsx from 'clsx';
+import Modal from '@commons/Modal';
 import Header from '@commons/Header';
 import InternsList from './InternsList';
-import Modal from '@commons/Modal';
-import AddInternModal from './AddInternModal';
-import InternDetailModal from './InternDetailModal';
+import AddInternModal from './InternModal';
 import s from './HomePage.module.scss';
-import clsx from 'clsx';
 
 const HomePage = () => {
-  const dispatch = useDispatch();
-  const { isAddModalOpen, isDetailModalOpen } = useSelector(
-    state => state.modals,
-  );
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const handleOpenModal = () => {
-    dispatch(openAddModal());
+    setIsAddModalOpen(true);
   };
 
   return (
     <div
       className={clsx(s.root, {
-        [s.lock]: isAddModalOpen || isDetailModalOpen,
+        [s.lock]: isAddModalOpen || isDetailModalOpen || isEditModalOpen,
       })}
     >
       <Header />
+
       <button className={s.btn} onClick={handleOpenModal}>
         Добавить <span className={s.btnWord}>&nbsp;стажера</span>
       </button>
-      <InternsList />
-      {isAddModalOpen && (
-        <Modal>
-          <AddInternModal />
-        </Modal>
-      )}
-      {isDetailModalOpen && (
-        <Modal>
-          <InternDetailModal />
-        </Modal>
-      )}
+
+      <InternsList
+        isDetailModalOpen={isDetailModalOpen}
+        isEditModalOpen={isEditModalOpen}
+        setIsDetailModalOpen={setIsDetailModalOpen}
+        setIsEditModalOpen={setIsEditModalOpen}
+      />
+
+      <Modal isOpen={isAddModalOpen} setIsModalOpen={setIsAddModalOpen}>
+        <AddInternModal setIsModalOpen={setIsAddModalOpen} />
+      </Modal>
     </div>
   );
 };

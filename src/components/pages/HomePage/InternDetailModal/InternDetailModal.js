@@ -1,9 +1,8 @@
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { useSelector } from 'react-redux';
 import s from './InternDetailModal.module.scss';
 
-const InternDetailModal = () => {
-  const { selectedIntern } = useSelector(state => state.modals);
+const InternDetailModal = ({ selectedIntern }) => {
   return (
     <div className={s.intern}>
       <div className={s.gridContainer}>
@@ -54,6 +53,22 @@ const InternDetailModal = () => {
       </div>
     </div>
   );
+};
+
+InternDetailModal.propTypes = {
+  selectedIntern: PropTypes.shape({
+    fullName: PropTypes.string.isRequired,
+    birthDate: PropTypes.string.isRequired,
+    education: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    direction: PropTypes.string.isRequired,
+    mentor: PropTypes.string.isRequired,
+    internshipType: PropTypes.string.isRequired,
+    internshipStage: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+    comment: PropTypes.string,
+  }).isRequired,
 };
 
 export default InternDetailModal;

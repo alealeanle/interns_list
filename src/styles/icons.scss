@@ -27,11 +27,12 @@
 
 .icon-pencil:before {
   content: '\e905';
+  @include adaptive-value('font-size', 24, 12);
 }
 .icon-search:before {
   content: '\e986';
 }
 .icon-eye:before {
-  @include adaptive-value('font-size', 24, 12);
   content: '\e9ce';
+  @include adaptive-value('font-size', 24, 12);
 }

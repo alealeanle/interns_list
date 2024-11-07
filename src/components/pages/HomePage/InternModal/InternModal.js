@@ -1,29 +1,42 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addIntern } from '@models/internsSlice';
-import { closeAddModal } from '@models/modalSlice';
-import s from './AddInternModal.module.scss';
+import { v4 as uuidv4 } from 'uuid';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { addIntern, saveEditIntern, deleteIntern } from '@models/internsSlice';
+import s from './InternModal.module.scss';
 
-const AddInternModal = () => {
+const InternModal = ({
+  isEditMode = false,
+  selectedIntern,
+  setIsModalOpen,
+}) => {
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
-    id: uuidv4(),
-    fullName: '',
-    birthDate: '',
-    education: '',
-    email: '',
-    direction: 'Frontend',
-    startDate: '',
-    mentor: '',
-    internshipType: 'Базовая',
-    internshipStage: 'Изучение',
-    endDate: '',
-    comment: '',
+    id: isEditMode ? selectedIntern.id : uuidv4(),
+    fullName: isEditMode ? selectedIntern.fullName : '',
+    birthDate: isEditMode ? selectedIntern.birthDate : '',
+    education: isEditMode ? selectedIntern.education : '',
+    email: isEditMode ? selectedIntern.email : '',
+    direction: isEditMode ? selectedIntern.direction : 'Frontend',
+    startDate: isEditMode ? selectedIntern.startDate : '',
+    mentor: isEditMode ? selectedIntern.mentor : '',
+    internshipType: isEditMode ? selectedIntern.internshipType : 'Базовая',
+    internshipStage: isEditMode ? selectedIntern.internshipStage : 'Изучение',
+    endDate: isEditMode ? selectedIntern.endDate : '',
+    comment: isEditMode ? selectedIntern.comment : '',
   });
 
   const [errors, setErrors] = useState({});
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -57,23 +70,31 @@ const AddInternModal = () => {
     if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
     } else {
-      dispatch(addIntern(formData));
-      dispatch(closeAddModal());
+      if (isEditMode) {
+        dispatch(saveEditIntern(formData));
+      } else {
+        dispatch(addIntern(formData));
+      }
+      setIsModalOpen(false);
     }
   };
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleDeleteIntern = id => {
+    dispatch(deleteIntern(id));
+    setIsModalOpen(false);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className={s.title}>Новый стажер</h2>
-      <div className={s.gridContainer}>
+      <h2 className={s.title}>
+        {isEditMode ? 'Редактировать стажера' : 'Новый стажер'}
+      </h2>
+      <div
+        className={clsx({
+          [s.gridContainer]: !isEditMode,
+          [s.gridContainerEditMode]: isEditMode,
+        })}
+      >
         <div className={clsx(s.wrap, s.fullName)}>
           <label className={s.label}>ФИО</label>
           <input
@@ -215,17 +236,48 @@ const AddInternModal = () => {
           <label className={s.label}>Комментарий</label>
           <textarea
             name="comment"
-            className={s.input}
+            className={clsx(s.input, { [s.commentEditMode]: isEditMode })}
             value={formData.comment}
             onChange={handleChange}
           ></textarea>
         </div>
-        <button className={s.submit} type="submit">
-          Добавить
+
+        <button
+          className={clsx(s.btn, { [s.btnEditMode]: isEditMode })}
+          type="submit"
+        >
+          {isEditMode ? 'Сохранить' : 'Добавить'}
         </button>
+        {isEditMode && (
+          <button
+            className={clsx(s.btn, s.btnEditMode, s.delete)}
+            type="button"
+            onClick={() => {
+              handleDeleteIntern(selectedIntern.id);
+            }}
+          >
+            Удалить
+          </button>
+        )}
       </div>
     </form>
   );
 };
 
-export default AddInternModal;
+InternModal.propTypes = {
+  selectedIntern: PropTypes.shape({
+    fullName: PropTypes.string.isRequired,
+    birthDate: PropTypes.string.isRequired,
+    education: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    direction: PropTypes.string.isRequired,
+    mentor: PropTypes.string.isRequired,
+    internshipType: PropTypes.string.isRequired,
+    internshipStage: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+    comment: PropTypes.string,
+  }).isRequired,
+};
+
+export default InternModal;

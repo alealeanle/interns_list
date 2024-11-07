@@ -1,20 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { closeAddModal, closeDetailModal } from '@models/modalSlice';
+import { memo } from 'react';
+import PropTypes from 'prop-types';
+import ModalFade from '@commons/ModalFade';
 import s from './Modal.module.scss';
 
-const Modal = ({ children }) => {
-  const dispatch = useDispatch();
-  const { isAddModalOpen, isDetailModalOpen } = useSelector(
-    state => state.modals,
-  );
-
+const Modal = ({ children, isOpen, setIsModalOpen }) => {
   const handleCloseModal = () => {
-    if (isAddModalOpen) {
-      dispatch(closeAddModal());
-    }
-    if (isDetailModalOpen) {
-      dispatch(closeDetailModal());
-    }
+    setIsModalOpen(false);
   };
 
   const contentClick = e => {
@@ -22,12 +13,20 @@ const Modal = ({ children }) => {
   };
 
   return (
-    <div className={s.modal} onClick={handleCloseModal}>
-      <div className={s.modalContent} onClick={contentClick}>
-        {children}
+    <ModalFade isOpen={isOpen}>
+      <div className={s.modal} onClick={handleCloseModal}>
+        <div className={s.modalContent} onClick={contentClick}>
+          {children}
+        </div>
       </div>
-    </div>
+    </ModalFade>
   );
 };
 
-export default Modal;
+Modal.propTypes = {
+  children: PropTypes.node.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
+};
+
+export default memo(Modal);
