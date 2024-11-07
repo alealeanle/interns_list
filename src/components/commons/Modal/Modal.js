@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import ModalFade from '@commons/ModalFade';
 import s from './Modal.module.scss';
 
-const Modal = ({ children, isOpen, closeModal }) => {
+const Modal = ({ children, isOpen, setIsModalOpen }) => {
   const handleCloseModal = () => {
-    closeModal(false);
+    setIsModalOpen(false);
   };
 
   const contentClick = e => {
@@ -26,7 +26,7 @@ const Modal = ({ children, isOpen, closeModal }) => {
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
 };
 
 export default memo(Modal);

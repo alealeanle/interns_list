@@ -6,7 +6,7 @@ import s from './ModalFade.module.scss';
 const ModalFade = ({ children, isOpen }) => {
   const nodeRef = useRef(null);
 
-  const content = (
+  return (
     <CSSTransition
       in={isOpen}
       timeout={200}
@@ -22,8 +22,6 @@ const ModalFade = ({ children, isOpen }) => {
       <div ref={nodeRef}>{children}</div>
     </CSSTransition>
   );
-
-  return content;
 };
 
 ModalFade.propTypes = {

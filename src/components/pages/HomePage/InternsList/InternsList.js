@@ -66,14 +66,17 @@ const InternsList = ({
               ></button>
             </div>
 
-            <Modal isOpen={isDetailModalOpen} closeModal={setIsDetailModalOpen}>
+            <Modal
+              isOpen={isDetailModalOpen}
+              setIsModalOpen={setIsDetailModalOpen}
+            >
               <InternDetailModal selectedIntern={selectedIntern} />
             </Modal>
-            <Modal isOpen={isEditModalOpen} closeModal={setIsEditModalOpen}>
+            <Modal isOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen}>
               <EditInternModal
                 isEditMode
                 selectedIntern={selectedIntern}
-                closeModal={setIsEditModalOpen}
+                setIsModalOpen={setIsEditModalOpen}
               />
             </Modal>
           </div>

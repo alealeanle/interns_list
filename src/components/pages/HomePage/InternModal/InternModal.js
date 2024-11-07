@@ -6,7 +6,11 @@ import PropTypes from 'prop-types';
 import { addIntern, saveEditIntern, deleteIntern } from '@models/internsSlice';
 import s from './InternModal.module.scss';
 
-const InternModal = ({ isEditMode = false, selectedIntern, closeModal }) => {
+const InternModal = ({
+  isEditMode = false,
+  selectedIntern,
+  setIsModalOpen,
+}) => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -71,13 +75,13 @@ const InternModal = ({ isEditMode = false, selectedIntern, closeModal }) => {
       } else {
         dispatch(addIntern(formData));
       }
-      closeModal(false);
+      setIsModalOpen(false);
     }
   };
 
   const handleDeleteIntern = id => {
     dispatch(deleteIntern(id));
-    closeModal(false);
+    setIsModalOpen(false);
   };
 
   return (

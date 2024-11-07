@@ -34,8 +34,8 @@ const HomePage = () => {
         setIsEditModalOpen={setIsEditModalOpen}
       />
 
-      <Modal isOpen={isAddModalOpen} closeModal={setIsAddModalOpen}>
-        <AddInternModal closeModal={setIsAddModalOpen} />
+      <Modal isOpen={isAddModalOpen} setIsModalOpen={setIsAddModalOpen}>
+        <AddInternModal setIsModalOpen={setIsAddModalOpen} />
       </Modal>
     </div>
   );
