@@ -22,7 +22,9 @@
   background-color: $orange100;
   outline: 1px solid $beige200;
   border-radius: 10px;
-  transition: all 0.3s ease 0s;
+  transition:
+    background-color 0.3s ease 0s,
+    outline 0.3s ease 0s;
 
   @include respondXLarge {
     padding-top: 0;
@@ -115,7 +117,7 @@
   background-color: $green100;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease 0s;
+  transition: background-color 0.3s ease 0s;
 
   @include respondLarge {
     padding: 3px 9px;

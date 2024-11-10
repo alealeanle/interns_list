@@ -8,6 +8,23 @@ import InternDetailModal from '@pages/HomePage/InternDetailModal';
 import EditInternModal from '@pages/HomePage/InternModal';
 import s from './InternsList.module.scss';
 
+const highlightMatch = (text, filter) => {
+  if (!filter) return text;
+
+  const regex = new RegExp(`(${filter})`, 'gi');
+  const parts = text.split(regex);
+  const lowerFilter = filter.toLowerCase();
+
+  return parts.map(part => (
+    <span
+      key={uuidv4()}
+      className={clsx({ [s.highlight]: part.toLowerCase() === lowerFilter })}
+    >
+      {part}
+    </span>
+  ));
+};
+
 const InternsList = ({
   isDetailModalOpen,
   isEditModalOpen,
@@ -22,6 +39,7 @@ const InternsList = ({
     internshipStage: true,
     startDate: true,
   });
+  const [filteredInterns, setFilteredInterns] = useState(interns);
 
   const handleFilterChange = e => {
     setFilterText(e.target.value);
@@ -46,39 +64,22 @@ const InternsList = ({
     };
   }, []);
 
-  const filteredInterns = interns.filter(intern => {
-    return (
-      intern.fullName.toLowerCase().includes(filterText.toLowerCase()) ||
-      intern.direction.toLowerCase().includes(filterText.toLowerCase()) ||
-      (visibleFields.internshipType &&
-        intern.internshipType
-          .toLowerCase()
-          .includes(filterText.toLowerCase())) ||
-      (visibleFields.internshipStage &&
-        intern.internshipStage
-          .toLowerCase()
-          .includes(filterText.toLowerCase())) ||
-      (visibleFields.startDate &&
-        intern.startDate.toLowerCase().includes(filterText.toLowerCase()))
-    );
-  });
-
-  const highlightMatch = (text, filter) => {
-    if (!filter) return text;
-
-    const regex = new RegExp(`(${filter})`, 'gi');
-    const parts = text.split(regex);
-
-    return parts.map(part =>
-      part.toLowerCase() === filter.toLowerCase() ? (
-        <span key={uuidv4()} className={s.highlight}>
-          {part}
-        </span>
-      ) : (
-        <React.Fragment key={uuidv4()}>{part}</React.Fragment>
-      ),
-    );
-  };
+  useEffect(() => {
+    const lowerCaseFilterText = filterText.toLowerCase();
+    const filtered = interns.filter(intern => {
+      return (
+        intern.fullName.toLowerCase().includes(lowerCaseFilterText) ||
+        intern.direction.toLowerCase().includes(lowerCaseFilterText) ||
+        (visibleFields.internshipType &&
+          intern.internshipType.toLowerCase().includes(lowerCaseFilterText)) ||
+        (visibleFields.internshipStage &&
+          intern.internshipStage.toLowerCase().includes(lowerCaseFilterText)) ||
+        (visibleFields.startDate &&
+          intern.startDate.toLowerCase().includes(lowerCaseFilterText))
+      );
+    });
+    setFilteredInterns(filtered);
+  }, [interns, filterText, visibleFields]);
 
   const onDetailClick = intern => {
     setSelectedIntern(intern);
