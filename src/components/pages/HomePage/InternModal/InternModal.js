@@ -277,7 +277,7 @@ InternModal.propTypes = {
     startDate: PropTypes.string.isRequired,
     endDate: PropTypes.string.isRequired,
     comment: PropTypes.string,
-  }).isRequired,
+  }),
 };
 
 export default InternModal;

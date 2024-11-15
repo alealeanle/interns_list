@@ -10,8 +10,21 @@
   border-radius: 20px;
 }
 
-.filterInput {
+.filter {
   width: 40%;
+  border-radius: 10px;
+
+  @include respondMedium {
+    width: 55%;
+  }
+
+  @include respondSmall {
+    width: 100%;
+  }
+}
+
+.filterInput {
+  width: 100%;
   @include adaptive-value('height', 40, 12);
   @include adaptive-value('padding', 20, 4);
   font-family: Roboto;
@@ -29,14 +42,6 @@
   @include respondXLarge {
     padding-top: 0;
     padding-bottom: 0;
-  }
-
-  @include respondMedium {
-    width: 55%;
-  }
-
-  @include respondSmall {
-    width: 100%;
   }
 
   @media (any-hover: hover) {
@@ -74,13 +79,25 @@
 .intern {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
-  @include adaptive-value('font-size', 18, 10);
+  gap: 10px;
 
   &:not(:last-child) {
     padding: 0px 0px 15px 0px;
     border-bottom: 1px solid;
+  }
+}
+
+.internLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  @include adaptive-value('font-size', 18, 10);
+  color: inherit;
+
+  &:active {
+    color: $orange200;
   }
 }
 
@@ -110,6 +127,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 5vw;
+  height: 5vh;
   padding: 5px 15px;
   font-size: 14px;
   line-height: 142%;
@@ -120,7 +139,17 @@
   transition: background-color 0.3s ease 0s;
 
   @include respondLarge {
+    height: 4vh;
     padding: 3px 9px;
+  }
+
+  @include respondMedium {
+    width: 7vw;
+    height: 4vh;
+  }
+
+  @include respondSmall {
+    width: 10vw;
   }
 
   @media (any-hover: hover) {
@@ -135,6 +164,8 @@
 }
 
 .startDate {
+  max-width: 250px;
+  white-space: nowrap;
   @include respondLarge {
     display: none;
   }
