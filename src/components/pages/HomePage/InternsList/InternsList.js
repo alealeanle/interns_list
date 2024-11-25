@@ -1,5 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import { useSelector } from 'react-redux';
+import { Link, useSearchParams } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
@@ -33,7 +34,9 @@ const InternsList = ({
 }) => {
   const interns = useSelector(state => state.interns.interns);
   const [selectedIntern, setSelectedIntern] = useState(null);
-  const [filterText, setFilterText] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
+  const [filterText, setFilterText] = useState(searchQuery);
   const [visibleFields, setVisibleFields] = useState({
     internshipType: true,
     internshipStage: true,
@@ -43,6 +46,7 @@ const InternsList = ({
 
   const handleFilterChange = e => {
     setFilterText(e.target.value);
+    setSearchParams({ search: e.target.value });
   };
 
   useEffect(() => {
@@ -92,51 +96,55 @@ const InternsList = ({
   };
 
   return (
-    <div className={s.internsList}>
+    <ul className={s.internsList}>
       {!interns.length ? (
-        <p className={s.emptyList}>Список пуст</p>
+        <li className={s.emptyList}>Список пуст</li>
       ) : (
         <>
-          <input
-            type="text"
-            placeholder="Поиск"
-            value={filterText}
-            onChange={handleFilterChange}
-            className={s.filterInput}
-          />
+          <li className={s.filter}>
+            <input
+              type="text"
+              placeholder="Поиск"
+              value={filterText}
+              onChange={handleFilterChange}
+              className={s.filterInput}
+            />
+          </li>
           {!filteredInterns.length ? (
-            <p className={s.emptyList}>Результаты поиска отсутствуют</p>
+            <li className={s.emptyList}>Результаты поиска отсутствуют</li>
           ) : (
-            filteredInterns.map(intern => (
-              <div key={intern.id} className={s.intern}>
-                <p className={s.internItem}>
-                  <strong className={clsx(s.label, s.fullNameLabel)}>
-                    ФИО:
-                  </strong>
-                  <span>{highlightMatch(intern.fullName, filterText)}</span>
-                </p>
-                <p className={s.internItem}>
-                  <strong className={clsx(s.label, s.directionLabel)}>
-                    Направление:
-                  </strong>
-                  <span>{highlightMatch(intern.direction, filterText)}</span>
-                </p>
-                <p className={clsx(s.internItem, s.internshipType)}>
-                  <strong className={s.label}>Тип стажировки:</strong>
-                  <span>
-                    {highlightMatch(intern.internshipType, filterText)}
-                  </span>
-                </p>
-                <p className={clsx(s.internItem, s.internshipStage)}>
-                  <strong className={s.label}>Стадия стажировки:</strong>
-                  <span>
-                    {highlightMatch(intern.internshipStage, filterText)}
-                  </span>
-                </p>
-                <p className={clsx(s.internItem, s.startDate)}>
-                  <strong className={s.label}>Дата начала:</strong>
-                  <span>{highlightMatch(intern.startDate, filterText)}</span>
-                </p>
+            filteredInterns.map((intern, index) => (
+              <li key={intern.id} className={s.intern}>
+                <Link to={`/interns/${index + 1}`} className={s.internLink}>
+                  <p className={s.internItem}>
+                    <strong className={clsx(s.label, s.fullNameLabel)}>
+                      ФИО:
+                    </strong>
+                    <span>{highlightMatch(intern.fullName, filterText)}</span>
+                  </p>
+                  <p className={s.internItem}>
+                    <strong className={clsx(s.label, s.directionLabel)}>
+                      Направление:
+                    </strong>
+                    <span>{highlightMatch(intern.direction, filterText)}</span>
+                  </p>
+                  <p className={clsx(s.internItem, s.internshipType)}>
+                    <strong className={s.label}>Тип стажировки:</strong>
+                    <span>
+                      {highlightMatch(intern.internshipType, filterText)}
+                    </span>
+                  </p>
+                  <p className={clsx(s.internItem, s.internshipStage)}>
+                    <strong className={s.label}>Стадия стажировки:</strong>
+                    <span>
+                      {highlightMatch(intern.internshipStage, filterText)}
+                    </span>
+                  </p>
+                  <p className={clsx(s.internItem, s.startDate)}>
+                    <strong className={s.label}>Дата начала:</strong>
+                    <span>{highlightMatch(intern.startDate, filterText)}</span>
+                  </p>
+                </Link>
                 <div className={s.buttons}>
                   <button
                     className={clsx(s.btn, 'icon-eye')}
@@ -164,12 +172,12 @@ const InternsList = ({
                     setIsModalOpen={setIsEditModalOpen}
                   />
                 </Modal>
-              </div>
+              </li>
             ))
           )}
         </>
       )}
-    </div>
+    </ul>
   );
 };
 
