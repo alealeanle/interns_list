@@ -4,9 +4,9 @@ import InternDetailModal from '@pages/HomePage/InternDetailModal';
 import s from './InternDetailPage.module.scss';
 
 const InternDetailPage = () => {
-  const { index } = useParams();
+  const { id } = useParams();
   const interns = useSelector(state => state.interns.interns);
-  const selectedIntern = interns[index - 1];
+  const selectedIntern = interns.find(intern => intern.id === id);
 
   if (!selectedIntern) {
     return <p className={s.title}>Стажёр не найден</p>;

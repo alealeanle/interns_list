@@ -115,7 +115,7 @@ const InternsList = ({
           ) : (
             filteredInterns.map((intern, index) => (
               <li key={intern.id} className={s.intern}>
-                <Link to={`/interns/${index + 1}`} className={s.internLink}>
+                <Link to={`/interns/${intern.id}`} className={s.internLink}>
                   <p className={s.internItem}>
                     <strong className={clsx(s.label, s.fullNameLabel)}>
                       ФИО:

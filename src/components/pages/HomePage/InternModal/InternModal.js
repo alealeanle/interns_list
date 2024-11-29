@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { addIntern, saveEditIntern, deleteIntern } from '@models/internsSlice';
 import s from './InternModal.module.scss';
 
 const InternModal = ({
@@ -71,16 +70,16 @@ const InternModal = ({
       setErrors(validationErrors);
     } else {
       if (isEditMode) {
-        dispatch(saveEditIntern(formData));
+        dispatch({ type: 'interns/editInternSaga', payload: formData });
       } else {
-        dispatch(addIntern(formData));
+        dispatch({ type: 'interns/addInternSaga', payload: formData });
       }
       setIsModalOpen(false);
     }
   };
 
   const handleDeleteIntern = id => {
-    dispatch(deleteIntern(id));
+    dispatch({ type: 'interns/deleteInternSaga', payload: id });
     setIsModalOpen(false);
   };
 

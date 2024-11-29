@@ -9,6 +9,7 @@ module.exports = {
       '@commons': path.resolve(__dirname, 'src/components/commons'),
       '@store': path.resolve(__dirname, 'src/store'),
       '@models': path.resolve(__dirname, 'src/models'),
+      '@saga': path.resolve(__dirname, 'src/saga'),
     },
   },
   mode: 'development',

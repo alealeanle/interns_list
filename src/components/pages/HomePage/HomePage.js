@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Modal from '@commons/Modal';
 import Header from '@commons/Header';
 import InternsList from './InternsList';
 import AddInternModal from './InternModal';
 import s from './HomePage.module.scss';
+import { useDispatch } from 'react-redux';
 
 const HomePage = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: 'interns/fetchInterns' });
+  }, [dispatch]);
 
   const handleOpenModal = () => {
     setIsAddModalOpen(true);
