@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   interns: [],
+  selectedIntern: null,
 };
 
 const internsSlice = createSlice({
@@ -10,6 +11,9 @@ const internsSlice = createSlice({
   reducers: {
     setInterns: (state, action) => {
       state.interns = action.payload;
+    },
+    setSelectedIntern: (state, action) => {
+      state.selectedIntern = action.payload;
     },
     addIntern: (state, action) => {
       state.interns.push(action.payload);
@@ -27,7 +31,12 @@ const internsSlice = createSlice({
   },
 });
 
-export const { setInterns, addIntern, saveEditIntern, deleteIntern } =
-  internsSlice.actions;
+export const {
+  setInterns,
+  addIntern,
+  saveEditIntern,
+  deleteIntern,
+  setSelectedIntern,
+} = internsSlice.actions;
 
 export default internsSlice;

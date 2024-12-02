@@ -1,12 +1,17 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InternDetailModal from '@pages/HomePage/InternDetailModal';
 import s from './InternDetailPage.module.scss';
 
 const InternDetailPage = () => {
   const { id } = useParams();
-  const interns = useSelector(state => state.interns.interns);
-  const selectedIntern = interns.find(intern => intern.id === id);
+  const dispatch = useDispatch();
+  const selectedIntern = useSelector(state => state.interns.selectedIntern);
+
+  useEffect(() => {
+    dispatch({ type: 'interns/fetchInternById', payload: id });
+  }, [id, dispatch]);
 
   if (!selectedIntern) {
     return <p className={s.title}>Стажёр не найден</p>;

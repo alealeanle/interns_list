@@ -113,7 +113,7 @@ const InternsList = ({
           {!filteredInterns.length ? (
             <li className={s.emptyList}>Результаты поиска отсутствуют</li>
           ) : (
-            filteredInterns.map((intern, index) => (
+            filteredInterns.map(intern => (
               <li key={intern.id} className={s.intern}>
                 <Link to={`/interns/${intern.id}`} className={s.internLink}>
                   <p className={s.internItem}>

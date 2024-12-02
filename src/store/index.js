@@ -15,6 +15,4 @@ const store = configureStore({
 
 sagaMiddleware.run(rootSaga);
 
-store.dispatch({ type: 'interns/fetchInterns' });
-
 export default store;

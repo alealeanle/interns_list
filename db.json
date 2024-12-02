@@ -1,3 +1,32 @@
 {
-  "interns": []
+  "interns": [
+    {
+      "id": "7ff38bc4-30fc-4e69-a0b7-b536691ff94d",
+      "fullName": "Иванов Иван Иванович",
+      "birthDate": "2024-11-01",
+      "education": "Высшее",
+      "email": "fdssd@sd.ty",
+      "direction": "Frontend",
+      "startDate": "2024-11-02",
+      "mentor": "Петров Петр Сидорович",
+      "internshipType": "Базовая",
+      "internshipStage": "Изучение",
+      "endDate": "2024-11-02",
+      "comment": ""
+    },
+    {
+      "id": "7ff38bc4-30fc-4e69-a0b7-b536691ff94d77777",
+      "fullName": "Иванов Иван",
+      "birthDate": "2024-11-01",
+      "education": "Высшее",
+      "email": "fdssd@sd.ty",
+      "direction": "Frontend",
+      "startDate": "2024-11-02",
+      "mentor": "Петров Петр Сидорович",
+      "internshipType": "Базовая",
+      "internshipStage": "Изучение",
+      "endDate": "2024-11-02",
+      "comment": ""
+    }
+  ]
 }

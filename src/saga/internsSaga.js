@@ -5,6 +5,7 @@ import {
   addIntern,
   saveEditIntern,
   deleteIntern,
+  setSelectedIntern,
 } from '@models/internsSlice';
 
 const JSON_SERVER_URL = 'http://localhost:5000/interns';
@@ -44,10 +45,21 @@ function* deleteInternSaga(action) {
   try {
     yield call(axios.delete, `${JSON_SERVER_URL}/${action.payload}`);
     yield put(deleteIntern(action.payload.id));
-    const response = yield call(axios.get, JSON_SERVER_URL);
-    yield put(setInterns(response.data));
+    yield call(fetchInterns);
   } catch (error) {
     console.error('Ошибка при удалении интерна:', error);
+  }
+}
+
+function* fetchInternById(action) {
+  try {
+    const response = yield call(
+      axios.get,
+      `${JSON_SERVER_URL}/${action.payload}`,
+    );
+    yield put(setSelectedIntern(response.data));
+  } catch (error) {
+    console.error('Ошибка при загрузке данных интерна:', error);
   }
 }
 
@@ -56,4 +68,5 @@ export default function* internsSaga() {
   yield takeEvery('interns/addInternSaga', addInternSaga);
   yield takeEvery('interns/editInternSaga', editInternSaga);
   yield takeEvery('interns/deleteInternSaga', deleteInternSaga);
+  yield takeEvery('interns/fetchInternById', fetchInternById);
 }
